@@ -1,4 +1,3 @@
 
 chmod +x scriptbash/CoinFlipExp.sh
-source .env
 ./scriptbash/CoinFlipExp.sh

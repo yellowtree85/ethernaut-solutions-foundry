@@ -58,7 +58,7 @@ fallbackExp:
 falloutExp:
 	@forge script script/FalloutExp.s.sol:Exp $(NETWORK_ARGS)
 coinFlipExp:
-	@forge script script/CoinFlipExp.s.sol:Exp $(NETWORK_ARGS)
+	@forge script script/CoinFlipExp.s.sol:onChainExp $(NETWORK_ARGS)
 telephoneExp:
 	@forge script script/TelephoneExp.s.sol:Exp $(NETWORK_ARGS)
 tokenExp:

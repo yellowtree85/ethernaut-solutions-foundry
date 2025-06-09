@@ -2,22 +2,24 @@
 pragma solidity ^0.8.0;
 
 import {Script, console2} from "forge-std/Script.sol";
-// import {CoinFlip} from "../src/CoinFlip.sol";
+// import {DevOpsTools} from "lib/foundry-devops/src/DevOpsTools.sol";
 
 interface ICoinFlip {
     function flip(bool _guess) external returns (bool);
     function consecutiveWins() external view returns (uint256);
 }
 
-contract CoinFlipSolution is Script {
+contract Exp is Script {
     // $ forge script script/CoinFlip.s.sol --tc CoinFlipSolution
-    // $ forge script script/CoinFlip.s.sol --tc CoinFlipSolution
-    // $ forge script script/CoinFlip.s.sol --tc CoinFlipSolution --rpc-url $SEPOLIA_RPC_URL --account updraft --broadcast -vvvvv
+    // $ forge script script/CoinFlipExp2.s.sol:Exp --rpc-url $SEPOLIA_RPC_URL --account updraft --broadcast -vvvvv
     function run() external {
         ICoinFlip coinFlipInstance = ICoinFlip(0x9A4d4d6A6467D0869AD45E8220958a56421d7B2F);
+        // address attackContractAddress = DevOpsTools.get_most_recent_deployment("CoinFlipAttack", block.chainid);
+        // console2.log("most_recent_deployment attackContractAddress:", attackContractAddress);
+        CoinFlipAttack attackContract = CoinFlipAttack(0xC60b2725fd0d2B08bA1068E59B7DC0384e0d770e);
         // CoinFlip coinFlipInstance = new CoinFlip();
-        address attacker = makeAddr("attacker");
-        vm.deal(attacker, 1 ether);
+        // address attacker = makeAddr("attacker");
+        // vm.deal(attacker, 1 ether);
 
         // ---- Attack Starts From here ---
 
@@ -30,8 +32,7 @@ contract CoinFlipSolution is Script {
         // vm.startPrank(attacker);
         vm.startBroadcast();
         console2.log("consecutiveWins:", coinFlipInstance.consecutiveWins());
-        CoinFlipAttack attackContract = new CoinFlipAttack(address(coinFlipInstance));
-        console2.log("CoinFlipAttack address:", address(attackContract));
+        // console2.log("CoinFlipAttack address:", address(attackContract));
 
         // for (uint256 i = 0; i < 10; i++) {
         //     // Starts from block.number = 10
@@ -45,6 +46,18 @@ contract CoinFlipSolution is Script {
         console2.log("consecutiveWins:", coinFlipInstance.consecutiveWins());
         // vm.stopPrank();
         vm.stopBroadcast();
+    }
+}
+// forge script script/CoinFlipExp2.s.sol:DeployCoinFlipAttack --rpc-url $SEPOLIA_RPC_URL --account updraft --broadcast -vvvvv
+
+contract DeployCoinFlipAttack is Script {
+    ICoinFlip coinFlipInstance = ICoinFlip(0x9A4d4d6A6467D0869AD45E8220958a56421d7B2F);
+
+    function run() external {
+        vm.startBroadcast();
+        CoinFlipAttack attackContract = new CoinFlipAttack(address(coinFlipInstance));
+        vm.stopBroadcast();
+        console2.log("CoinFlipAttack deployed at:", address(attackContract));
     }
 }
 

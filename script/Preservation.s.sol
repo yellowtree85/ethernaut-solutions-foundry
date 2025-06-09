@@ -15,7 +15,7 @@ contract PreservationSolution is Script {
         // Deploy Two Lib contracts, then deploying `Preservation` contract
         LibraryContract timeLib1 = new LibraryContract();
         LibraryContract timeLib2 = new LibraryContract();
-        preservationInstance = new Preservation(address(timeLib1),address(timeLib2));
+        preservationInstance = new Preservation(address(timeLib1), address(timeLib2));
 
         // - To claim the ownership of the contract we need to change the owner value, which lies on the 2nd storage slot.
         // - `Preservation` contract makes delegate calls to time libs, so it seems we can easily change the values.

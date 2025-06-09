@@ -2,15 +2,21 @@
 src = "src"
 out = "out"
 libs = ["lib"]
-
+# fs_permissions = [
+#     { access = "read", path = "./broadcast" },
+#     { access = "read", path = "./reports" },
+# ]
+# ffi = false
 remappings = [
     "@openzeppelin-08=lib/oz-08",
-    "@openzeppelin-06=lib/oz-06",
+    "@openzeppelin-06=lib/oz-06"
 ]
 
 [fmt]
     line_length = 120
     tab_width = 4
 
-
+[rpc_endpoints]
+mainnet = "${MAINNET_ALCHEMY_RPC_URL}"
+sepolia = "${SEPOLIA_RPC_URL}"
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

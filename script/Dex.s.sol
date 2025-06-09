@@ -17,7 +17,7 @@ contract DexSolution is Script {
         dexInstance = new Dex();
 
         token1 = new SwappableToken(address(dexInstance), "Token1", "TK1", 110);
-        token2 = new SwappableToken(address(dexInstance), "Token2", "TK2",110);
+        token2 = new SwappableToken(address(dexInstance), "Token2", "TK2", 110);
 
         dexInstance.setTokens(address(token1), address(token2));
         dexInstance.approve(address(dexInstance), 100);

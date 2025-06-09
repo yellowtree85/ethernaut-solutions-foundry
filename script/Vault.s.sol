@@ -13,7 +13,7 @@ contract VaultSolution is Script {
     using stdStorage for StdStorage;
 
     function run() external {
-        Vault vaultInstance = new Vault("password" /* difficult one don't you think :) */);
+        Vault vaultInstance = new Vault("password" /* difficult one don't you think :) */ );
 
         // --- Attack Starts from Here ---
         address attacker = makeAddr("attacker");

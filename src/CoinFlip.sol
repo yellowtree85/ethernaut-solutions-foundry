@@ -1,11 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-/*
-  To complete this level you'll need to use your psychic abilities
-  to guess the correct outcome 10 times in a row.
-*/
-
 contract CoinFlip {
     uint256 public consecutiveWins;
     uint256 lastHash;

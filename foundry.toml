@@ -2,6 +2,13 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+test = "test"
+script = "script"
+cache_path = "cache"
+# solc-version = "0.8.28"
+# auto_detect_solc = false
+# optimizer = true
+# optimizer-runs = 200
 # fs_permissions = [
 #     { access = "read", path = "./broadcast" },
 #     { access = "read", path = "./reports" },
@@ -9,8 +16,28 @@ libs = ["lib"]
 # ffi = false
 remappings = [
     "@openzeppelin-08=lib/oz-08",
-    "@openzeppelin-06=lib/oz-06"
+    "@openzeppelin-06=lib/oz-06",
+    "forge-std=lib/forge-std/src"
 ]
+
+ 
+# 指定 Reentrance.sol 用 0.6.12 编译
+# [profile.default.overrides]
+# "src/Reentrance.sol".version = "0.6.12"
+# "src/AlienCodex.sol".version = "0.6.0"
+# "src/Fallout.sol".version = "0.6.0"
+# "src/Motorbike.sol".version = "0.6.0"
+# "src/PuzzleWallet.sol".version = "0.6.0"
+# "src/Token.sol".version = "0.6.0"
+
+# "script/AlienCodex.s.sol".version = "0.6.2"
+# "script/Fallout.s.sol".version = "0.6.0"
+# "script/FalloutExp.s.sol".version = "0.6.0"
+# "script/Motorbike.s.sol".version = "0.6.0"
+# "script/PuzzleWallet.s.sol".version = "0.6.0"
+# "script/Reentrance.s.sol".version = "0.6.0"
+# "script/Token.s.sol".version = "0.6.0"
+# "script/TokenExp.s.sol".version = "0.6.0"
 
 [fmt]
     line_length = 120
@@ -19,4 +46,5 @@ remappings = [
 [rpc_endpoints]
 mainnet = "${MAINNET_ALCHEMY_RPC_URL}"
 sepolia = "${SEPOLIA_RPC_URL}"
+arbiSepolia = "${ARBITRUM_SEPOLIA_RPC_URL}"
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

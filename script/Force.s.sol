@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "forge-std/Script.sol";
-import "forge-std/console.sol";
+import {Script, console2} from "forge-std/Script.sol";
 import {Force} from "../src/Force.sol";
 
 contract ForceSolution is Script {
@@ -23,9 +22,9 @@ contract ForceSolution is Script {
 
         ForceAttack attackContract = new ForceAttack{value: 1 wei}(payable(address(forceInstance)));
 
-        console.log("Force balance:", address(forceInstance).balance);
+        console2.log("Force balance:", address(forceInstance).balance);
         attackContract.attack();
-        console.log("Force balance:", address(forceInstance).balance);
+        console2.log("Force balance:", address(forceInstance).balance);
         vm.stopPrank();
     }
 }

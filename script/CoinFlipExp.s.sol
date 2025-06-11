@@ -2,7 +2,6 @@
 pragma solidity ^0.8.0;
 
 import {Script, console2} from "forge-std/Script.sol";
-// import "forge-std/console.sol";
 import {CoinFlip} from "../src/CoinFlip.sol";
 
 interface ICoinFlip {
@@ -10,11 +9,10 @@ interface ICoinFlip {
     function consecutiveWins() external view returns (uint256);
 }
 
+// $ forge script script/CoinFlipExp.s.sol:ForkExp
+// $ forge script script/CoinFlipExp.s.sol:ForkExp --fork-url $SEPOLIA_RPC_URL -vvvvv
+// ./scriptbash/CoinFlipExp.sh
 contract ForkExp is Script {
-    // $ forge script script/CoinFlipExp.s.sol:ForkExp
-    // $ forge script script/CoinFlipExp.s.sol:ForkExp --fork-url $SEPOLIA_RPC_URL -vvvvv
-    // ./scriptbash/CoinFlipExp.sh
-
     ICoinFlip public coinFlipInstance = ICoinFlip(0x9A4d4d6A6467D0869AD45E8220958a56421d7B2F);
     uint256 FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
 
@@ -50,12 +48,11 @@ contract ForkExp is Script {
     }
 }
 
+// $ forge script script/CoinFlipExp.s.sol:onChainExp --fork-url $SEPOLIA_RPC_URL -vvvvv
+// $ forge script script/CoinFlipExp.s.sol:onChainExp --rpc-url $SEPOLIA_RPC_URL --account updraft --broadcast --sender $ACCOUNT_SEPOLIA -vvvvv
+// $ make coinFlipExp ARGS='--network sepolia'
+// ./scriptbash/CoinFlipExp.sh
 contract onChainExp is Script {
-    // $ forge script script/CoinFlipExp.s.sol:onChainExp --fork-url $SEPOLIA_RPC_URL -vvvvv
-    // $ forge script script/CoinFlipExp.s.sol:onChainExp --rpc-url $SEPOLIA_RPC_URL --account updraft --broadcast --sender $ACCOUNT_SEPOLIA -vvvvv
-    // $ make coinFlipExp ARGS='--network sepolia'
-    // ./scriptbash/CoinFlipExp.sh
-
     ICoinFlip public coinFlipInstance = ICoinFlip(0x9A4d4d6A6467D0869AD45E8220958a56421d7B2F);
 
     function run() external {

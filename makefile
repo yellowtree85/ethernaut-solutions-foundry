@@ -46,7 +46,7 @@ ifeq ($(findstring --network sepolia,$(ARGS)),--network sepolia)
 endif
 
 ifeq ($(findstring --network arbiSepolia,$(ARGS)),--network arbiSepolia)
-	NETWORK_ARGS := --rpc-url $(ARBITRUM_SEPOLIA_RPC_URL) --account $(ACCOUNT_ARBITRUM) --broadcast --sender $(ACCOUNT_ARBITRUM) --verify --arbiscan-api-key $(ARBISCAN_API_KEY) -vvvv
+	NETWORK_ARGS := --rpc-url $(ARBITRUM_SEPOLIA_RPC_URL) --account $(ACCOUNT_ARBITRUM) --broadcast --sender $(ACCOUNT_ARBITRUM) -vvvv
 endif
 
 ifeq ($(findstring --network holesky,$(ARGS)),--network holesky)
@@ -67,3 +67,13 @@ delegationExp:
 	@forge script script/DelegationExp.s.sol:Exp $(NETWORK_ARGS)
 forceExp:
 	@forge script script/ForceExp.s.sol:OnChainExp $(NETWORK_ARGS)
+vaultExp:
+	@forge script script/VaultExp.s.sol:OnChainExp $(NETWORK_ARGS)
+kingExp:
+	@forge script script/KingExp.s.sol:onChainExp $(NETWORK_ARGS)
+reentranceExp:
+	@forge script script/ReentranceExp.s.sol:onChainExp $(NETWORK_ARGS)
+elevatorExp:
+	@forge script script/ElevatorExp.s.sol:onChainExp $(NETWORK_ARGS)
+privacyExp:
+	@forge script script/PrivacyExp.s.sol:onChainExp $(NETWORK_ARGS)

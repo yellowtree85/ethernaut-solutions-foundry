@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+// import {console2} from "forge-std/console2.sol";
 /* Make it past the gatekeeper and register as an entrant to pass this level. */
 
 contract GatekeeperOne {
@@ -24,6 +25,7 @@ contract GatekeeperOne {
     }
 
     function enter(bytes8 _gateKey) public gateOne gateTwo gateThree(_gateKey) returns (bool) {
+        // console2.log("after enter gasleft", gasleft());
         entrant = tx.origin;
         return true;
     }

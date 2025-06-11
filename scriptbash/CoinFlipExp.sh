@@ -2,7 +2,7 @@
 # On Sepolia!
 source .env
 
-MAX_CALLS=2  # 👉 这里定义你想调用几次
+MAX_CALLS=2  # 👉 Set call count here
 
 echo "#####################Sepolia############################"
 echo "Running the script to call CoinFlip contracts on Sepolia..."
